@@ -1,54 +1,38 @@
 #!/usr/bin/env python3
 """艺术字符Log生成工具"""
 
-def generate_art_logo(text):
-    """生成艺术字符Logo"""
-    chars = {
-        '思': [
-            "  ██████  ",
-            " ██    ██ ",
-            "  ██████  ",
-            " ██    ██ ",
-            "  ██████  "
-        ],
-        '逸': [
-            " ████████ ",
-            "██░░░░░░██",
-            "  ██████  ",
-            " ██    ██ ",
-            " ████████ "
-        ],
-        '科': [
-            " ████████ ",
-            "██░░░░░░██",
-            "  ██████  ",
-            "  ██  ██  ",
-            "  ██████  "
-        ],
-        '技': [
-            "████████  ",
-            "██      ██",
-            " ████████ ",
-            "██      ██",
-            "████████  "
-        ]
-    }
+import sys
+import pyfiglet
 
-    lines = ["", "", "", "", ""]
-    for char in text:
-        char_art = chars.get(char, [f"  {char}  "] * 5)
-        for i in range(5):
-            lines[i] += char_art[i] + "  "
 
-    return "\n".join(lines)
+def generate_art_logo(text, font='banner'):
+    """生成艺术字符Logo
+
+    Args:
+        text: 要生成的标题（支持中英文）
+        font: 字体样式，默认为banner
+    """
+    try:
+        ascii_art = pyfiglet.figlet_format(text, font=font)
+        return ascii_art
+    except Exception as e:
+        return f"生成失败: {e}"
 
 
 def main():
-    logo = generate_art_logo("思逸科技")
+    if len(sys.argv) > 1:
+        text = sys.argv[1]
+    else:
+        text = "KST"
+
+    font = sys.argv[2] if len(sys.argv) > 2 else 'banner'
+
     print("=" * 60)
     print("艺术字符Log生成工具")
     print("=" * 60)
-    print(logo)
+    print(f"标题: {text}")
+    print("-" * 60)
+    print(generate_art_logo(text, font))
     print("=" * 60)
 
 
